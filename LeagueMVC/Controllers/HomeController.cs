@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LeagueMVC.Controllers
@@ -10,7 +7,7 @@ namespace LeagueMVC.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "League");
+            return View();
         }
 
         public IActionResult About()

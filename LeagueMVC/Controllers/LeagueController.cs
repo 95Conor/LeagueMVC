@@ -1,48 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using LeagueMVC.ViewModels.League;
-using LeagueMVC.Classes.Application;
 using LeagueMVC.Interfaces;
 using LeagueMVC.Tasks;
+using System.Linq;
 
 namespace LeagueMVC.Controllers
 {
     public class LeagueController : Controller
     {
         private ILeagueAPITasks leagueAPITasks;
+        private ILeagueApplicationTasks leagueApplicationTasks;
 
         public LeagueController()
         {
-            this.leagueAPITasks = new LeagueAPITasks();
+            leagueAPITasks = new LeagueAPITasks();
+            leagueApplicationTasks = new LeagueApplicationTasks();
         }
 
         public IActionResult Index()
         {
-            var manualViewModel = InstantiateIndexViewModel("95Conor");
-            return View(manualViewModel);
+            return RedirectToAction("UserSearch");
         }
 
-        // Need to make another function for when they return back to the controller
+        public IActionResult UserSearch()
+        {
+            var emptyViewModel = InstantiateUserSearchViewModel();
+            return View(emptyViewModel);
+        }
 
-        private IndexViewModel InstantiateIndexViewModel(string userName = "")
+        [HttpPost]
+        public IActionResult UserSearch(UserSearchViewModel userSearchViewModel)
+        {
+            if (!leagueApplicationTasks.IsValidUsername(userSearchViewModel.Username))
+            {
+                ModelState.AddModelError("Username", "Invalid username");
+                var emptyViewModel = InstantiateUserSearchViewModel();
+                return View(emptyViewModel);
+            }
+
+            var returnViewModel = InstantiateUserSearchViewModel(userSearchViewModel.Username);
+            return View(returnViewModel);
+        }
+
+        private UserSearchViewModel InstantiateUserSearchViewModel(string userName = "")
         {
             if (!String.IsNullOrEmpty(userName))
             {
                 var user = leagueAPITasks.GetUser(userName);
-                return new IndexViewModel()
+                return new UserSearchViewModel()
                 {
-                    Introduction = "Please search for a user.",
                     User = user
                 };
             }
 
-            return new IndexViewModel()
-            {
-                Introduction = "Please search for a user."
-            };
+            return new UserSearchViewModel();
         }
     }
 }

@@ -1,0 +1,28 @@
+﻿@model  LeagueMVC.ViewModels.League.UserSearchViewModel
+
+    <h1>User Search</h1><br />
+    
+    @using (Html.BeginForm())
+    {
+        @Html.LabelFor(model => model.Username)<br />
+        @Html.TextBoxFor(model => model.Username)
+
+        <input id="btnSubmit" type="submit" value="Search" />
+    }<br />
+
+    @if (Model.User != null)
+    {
+    <hr />
+    <h1>Results</h1>
+    <br />
+
+    <h2>Username</h2>
+
+    <p> @Model.User.Username </p><br />
+
+    <h2>User ID</h2>
+
+    <p> @Model.User.UserID </p><br />
+
+    }
+
