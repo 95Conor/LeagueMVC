@@ -12,8 +12,10 @@ namespace LeagueMVC.Mappers
         public static Classes.Application.League.User mapFromAPI(Classes.API.User inputUser)
         {
             Classes.Application.League.User returnUser = new Classes.Application.League.User();
-            returnUser.UserID = inputUser.UserID;
-            returnUser.Username = inputUser.Username;
+            returnUser.UserID = inputUser.id;
+            returnUser.Username = inputUser.name;
+            returnUser.LastLogin = DateTimeOffset.FromUnixTimeMilliseconds(inputUser.revisionDate).DateTime;
+            returnUser.TimeSinceLastLogin = DateTime.Now - returnUser.LastLogin;
             return returnUser;
         }
     }

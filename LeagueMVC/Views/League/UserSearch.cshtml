@@ -24,5 +24,9 @@
 
     <p> @Model.User.UserID </p><br />
 
+    <h2>Last Login</h2>
+
+    <p> @Model.User.LastLogin.ToString("dd-MM-yyyy")  (@Model.User.TimeSinceLastLogin.TotalDays days ago)</p><br />
+
     }
 

@@ -7,7 +7,11 @@ namespace LeagueMVC.Classes.API
 {
     public class User
     {
-        public string Username { get; set; }
-        public string UserID { get; set; }
+        public int profileIconId { get; set; }
+        public string name { get; set; }
+        public long summonerLevel { get; set; }
+        public long revisionDate { get; set; }
+        public long id { get; set; }
+        public long accountId { get; set; }
     }
 }
