@@ -10,9 +10,6 @@ namespace LeagueMVC.APIManagement
         private readonly string ServicePlatform = "EUW1";
         private readonly string Host = "https://euw1.api.riotgames.com";
 
-        // Future reference - change this to retrieve from appsettings.
-        private const string apiKey = "RGAPI-178d4da7-5ecb-40dc-b064-6e5741e6abc4";
-
         private Dictionary<QueryType, string> queryReplacements = new Dictionary<QueryType, string>()
         {
             { QueryType.SummonerByAccountId, "/lol/summoner/v3/summoners/by-account/" },
@@ -42,7 +39,7 @@ namespace LeagueMVC.APIManagement
                 }
             }
 
-            queryBuilder += "?api_key=" + apiKey;
+            queryBuilder += "?api_key=" + APIKey.key;
             return queryBuilder;
         }
     }
