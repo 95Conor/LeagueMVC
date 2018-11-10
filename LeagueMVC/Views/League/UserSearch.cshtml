@@ -1,16 +1,16 @@
-﻿@model  LeagueMVC.ViewModels.League.UserSearchViewModel
+﻿@model  LeagueMVC.ViewModels.Classes.UserSearchViewModel
 
     <h1>User Search</h1><br />
     
     @using (Html.BeginForm())
     {
-        @Html.LabelFor(model => model.Username)<br />
-        @Html.TextBoxFor(model => model.Username)
+        @Html.LabelFor(model => model.UsernameInput)<br />
+        @Html.TextBoxFor(model => model.UsernameInput)
 
         <input id="btnSubmit" type="submit" value="Search" />
     }<br />
 
-    @if (Model.User != null)
+    @if (Model.FoundResult)
     {
     <hr />
     <h1>Results</h1>
@@ -18,15 +18,15 @@
 
     <h2>Username</h2>
 
-    <p> @Model.User.Username </p><br />
+    <p> @Model.Username </p><br />
 
     <h2>User ID</h2>
 
-    <p> @Model.User.UserID </p><br />
+    <p> @Model.UserID </p><br />
 
     <h2>Last Login</h2>
 
-    <p> @Model.User.LastLogin.ToString("dd-MM-yyyy")  (@Model.User.TimeSinceLastLogin.TotalDays days ago)</p><br />
+    <p> @Model.LastLogin.ToString("dd-MM-yyyy")  (@Model.TimeSinceLastLogin.TotalDays days ago)</p><br />
 
     }
 

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LeagueMVC.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace LeagueMVC.Tasks
 {
-    public class LeagueApplicationTasks : ILeagueApplicationTasks
+    public class ApplicationTasks
     {
         public bool IsValidUsername(string username)
         {

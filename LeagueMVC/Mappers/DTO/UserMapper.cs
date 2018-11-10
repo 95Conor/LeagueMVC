@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LeagueMVC.Classes.API;
-using LeagueMVC.Classes.Application.League;
+using LeagueMVC.Classes.Application.DTO;
 
-namespace LeagueMVC.Mappers
+namespace LeagueMVC.Mappers.DTO
 {
     public class UserMapper
     {
-        public static Classes.Application.League.User mapFromAPI(Classes.API.User inputUser)
+        public static Classes.Application.DTO.UserDTO mapFromAPI(Classes.API.User inputUser)
         {
-            Classes.Application.League.User returnUser = new Classes.Application.League.User();
+            Classes.Application.DTO.UserDTO returnUser = new Classes.Application.DTO.UserDTO();
             returnUser.UserID = inputUser.id;
             returnUser.Username = inputUser.name;
             returnUser.LastLogin = DateTimeOffset.FromUnixTimeMilliseconds(inputUser.revisionDate).DateTime;

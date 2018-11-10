@@ -21,19 +21,6 @@ namespace LeagueMVC.APIManagement
             queryHelper = queryHelper ?? new QueryHelper();
         }
 
-        public User GetUser(string userName)
-        {
-            HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SummonerByName, userName));
-            if (!response.IsSuccessStatusCode)
-            {
-                LogAPIError(new Exception("Status Code: " + response.StatusCode.ToString() + " - Message: " + response.ReasonPhrase));
-                return new User();
-            }
-
-            User user = CreateAPIObjectFromResponse<User>(response);
-            return user;
-        }
-
         private static HttpResponseMessage GetResponse(string requestURI)
         {
             return httpClient.GetAsync(requestURI).Result;
@@ -48,7 +35,37 @@ namespace LeagueMVC.APIManagement
         {
             Console.WriteLine(error.Message);
 
-            // Implement
+            // To-do Implement actually logging to a local file
         }
+
+        #region APICalls
+
+        public User GetUser(string userName)
+        {
+            HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SummonerByName, userName));
+            if (!response.IsSuccessStatusCode)
+            {
+                LogAPIError(new Exception("Status Code: " + response.StatusCode.ToString() + " - Message: " + response.ReasonPhrase));
+                return new User();
+            }
+
+            User user = CreateAPIObjectFromResponse<User>(response);
+            return user;
+        }
+
+        public CurrentGameInfo GetCurrentGameInfo(long summonerId)
+        {
+            HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SpectatorBySummonerId, summonerId.ToString()));
+            if (!response.IsSuccessStatusCode)
+            {
+                LogAPIError(new Exception("Status Code: " + response.StatusCode.ToString() + " - Message: " + response.ReasonPhrase));
+                return new CurrentGameInfo();
+            }
+
+            CurrentGameInfo currentGameInfo = CreateAPIObjectFromResponse<CurrentGameInfo>(response);
+            return currentGameInfo;
+        }
+
+        #endregion APICalls
     }
 }

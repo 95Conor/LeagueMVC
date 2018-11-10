@@ -1,21 +1,29 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using LeagueMVC.ViewModels.League;
-using LeagueMVC.Interfaces;
+using LeagueMVC.ViewModels.Classes;
 using LeagueMVC.Tasks;
 using System.Linq;
+using LeagueMVC.Mappers.ViewModel;
 
 namespace LeagueMVC.Controllers
 {
     public class LeagueController : Controller
     {
-        private ILeagueAPITasks leagueAPITasks;
-        private ILeagueApplicationTasks leagueApplicationTasks;
+        private APITasks leagueAPITasks;
+        private ApplicationTasks leagueApplicationTasks;
+        private UserSearchViewModelMapper userSearchViewModelMapper;
+        private MatchSearchViewModelMapper matchSearchViewModelMapper;
+
+        // To-do: implement mapping as a Service object which will use polymorphism/interface/generics to avoid multiple mappers
+        //private ViewModelMappingService viewModelMappingService;
 
         public LeagueController()
         {
-            leagueAPITasks = new LeagueAPITasks();
-            leagueApplicationTasks = new LeagueApplicationTasks();
+            leagueAPITasks = new APITasks();
+            leagueApplicationTasks = new ApplicationTasks();
+            userSearchViewModelMapper = new UserSearchViewModelMapper();
+            matchSearchViewModelMapper = new MatchSearchViewModelMapper();
+            //viewModelMappingService = new ViewModelMappingService();
         }
 
         public IActionResult Index()
@@ -25,36 +33,62 @@ namespace LeagueMVC.Controllers
 
         public IActionResult UserSearch()
         {
-            var emptyViewModel = InstantiateUserSearchViewModel();
+            var emptyViewModel = new UserSearchViewModel();
             return View(emptyViewModel);
         }
 
         [HttpPost]
         public IActionResult UserSearch(UserSearchViewModel userSearchViewModel)
         {
-            if (!leagueApplicationTasks.IsValidUsername(userSearchViewModel.Username))
+            if (!leagueApplicationTasks.IsValidUsername(userSearchViewModel.UsernameInput))
             {
-                ModelState.AddModelError("Username", "Invalid username");
-                var emptyViewModel = InstantiateUserSearchViewModel();
+                ModelState.AddModelError("Username", "Invalid Username");
+                var emptyViewModel = new UserSearchViewModel();
                 return View(emptyViewModel);
             }
 
-            var returnViewModel = InstantiateUserSearchViewModel(userSearchViewModel.Username);
-            return View(returnViewModel);
+            PopulateUserSearchViewModel(userSearchViewModel);
+            return View(userSearchViewModel);
         }
 
-        private UserSearchViewModel InstantiateUserSearchViewModel(string userName = "")
+        private void PopulateUserSearchViewModel(UserSearchViewModel userSearchViewModel)
         {
-            if (!String.IsNullOrEmpty(userName))
+            if (userSearchViewModel != null && !String.IsNullOrEmpty(userSearchViewModel.UsernameInput))
             {
-                var user = leagueAPITasks.GetUser(userName);
-                return new UserSearchViewModel()
-                {
-                    User = user
-                };
+                var userDTO = leagueAPITasks.GetUser(userSearchViewModel.UsernameInput);
+                userSearchViewModelMapper.MapFromDTO(userSearchViewModel, userDTO);
+                userSearchViewModel.FoundResult = true;
+            }
+        }
+
+        public IActionResult MatchSearch()
+        {
+            var emptyViewModel = new MatchSearchViewModel();
+            return View(emptyViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult MatchSearch(MatchSearchViewModel matchSearchViewModel)
+        {
+            if (!leagueApplicationTasks.IsValidUsername(matchSearchViewModel.UsernameInput))
+            {
+                ModelState.AddModelError("Username", "Invalid Username");
+                var emptyViewModel = new UserSearchViewModel();
+                return View(emptyViewModel);
             }
 
-            return new UserSearchViewModel();
+            PopulateMatchSearchViewModel(matchSearchViewModel);
+            return View(matchSearchViewModel);
+        }
+
+        private void PopulateMatchSearchViewModel(MatchSearchViewModel matchSearchViewModel)
+        {
+            if (matchSearchViewModel != null && !String.IsNullOrEmpty(matchSearchViewModel.UsernameInput))
+            {
+                var currentGameInfoDTO = leagueAPITasks.GetCurrentGameInfo(matchSearchViewModel.UsernameInput);
+                matchSearchViewModelMapper.MapFromDTO(matchSearchViewModel, currentGameInfoDTO);
+                matchSearchViewModel.FoundResult = true;
+            }
         }
     }
 }

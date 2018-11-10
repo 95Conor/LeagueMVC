@@ -1,0 +1,28 @@
+﻿@model  LeagueMVC.ViewModels.Classes.MatchSearchViewModel
+
+<h1>User Search</h1><br />
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.UsernameInput)<br />
+    @Html.TextBoxFor(model => model.UsernameInput)
+
+    <input id="btnSubmit" type="submit" value="Search" />
+}<br />
+
+@if (Model.FoundResult)
+{
+    <hr />
+    <h1>Results</h1>
+    <br />
+
+    <h2>List of players found in game: </h2>
+
+    <ul>
+        @foreach (string playerUsername in Model.allPlayerUsernames)
+        {
+            <li>- @playerUsername</li>
+        }
+    </ul>
+}
+
