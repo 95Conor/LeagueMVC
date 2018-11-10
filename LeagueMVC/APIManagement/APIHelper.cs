@@ -15,10 +15,16 @@ namespace LeagueMVC.APIManagement
         private static HttpClient httpClient;
         private static QueryHelper queryHelper;
 
+        private static DateTime lastThrottleReset;
+        private static int throttleCounter;
+        private static readonly int throttlePerMinutes = 2;
+        private static readonly int throttleQueriesAllowed = 200;
+
         public APIHelper()
         {
             httpClient = httpClient ?? new HttpClient();
             queryHelper = queryHelper ?? new QueryHelper();
+            lastThrottleReset = DateTime.Now;
         }
 
         private static HttpResponseMessage GetResponse(string requestURI)
@@ -29,6 +35,23 @@ namespace LeagueMVC.APIManagement
         public static T CreateAPIObjectFromResponse<T>(HttpResponseMessage apiResponse)
         {
             return JsonConvert.DeserializeObject<T>(apiResponse.Content.ReadAsStringAsync().Result);
+        }
+
+        private static bool IsThrottled()
+        {
+            if (lastThrottleReset.AddMinutes(throttlePerMinutes) > DateTime.Now)
+            {
+                throttleCounter = 0;
+                lastThrottleReset = DateTime.Now;
+            }
+
+            throttleCounter++;
+            if (throttleCounter >= throttleQueriesAllowed)
+            {
+                LogAPIError(new Exception("Error: Too many queries to the API endpoint. Queries are currently throttled."));
+                return true;
+            }
+            return false;
         }
 
         private static void LogAPIError(Exception error)
@@ -42,6 +65,11 @@ namespace LeagueMVC.APIManagement
 
         public User GetUser(string userName)
         {
+            if (IsThrottled())
+            {
+                return null;
+            }
+
             HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SummonerByName, userName));
             if (!response.IsSuccessStatusCode)
             {
@@ -55,6 +83,11 @@ namespace LeagueMVC.APIManagement
 
         public CurrentGameInfo GetCurrentGameInfo(long summonerId)
         {
+            if (IsThrottled())
+            {
+                return null;
+            }
+
             HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SpectatorBySummonerId, summonerId.ToString()));
             if (!response.IsSuccessStatusCode)
             {
