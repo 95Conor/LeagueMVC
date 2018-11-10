@@ -20,11 +20,13 @@ namespace LeagueMVC.APIManagement
         private static readonly int throttlePerMinutes = 2;
         private static readonly int throttleQueriesAllowed = 200;
 
+        private static readonly string logFilePath = "";
+
         public APIHelper()
         {
             httpClient = httpClient ?? new HttpClient();
             queryHelper = queryHelper ?? new QueryHelper();
-            lastThrottleReset = DateTime.Now;
+            lastThrottleReset = lastThrottleReset == DateTime.MinValue ? DateTime.Now : lastThrottleReset;
         }
 
         private static HttpResponseMessage GetResponse(string requestURI)
