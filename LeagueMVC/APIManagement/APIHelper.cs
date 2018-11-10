@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.IO;
 
 
 namespace LeagueMVC.APIManagement
@@ -20,7 +21,7 @@ namespace LeagueMVC.APIManagement
         private static readonly int throttlePerMinutes = 2;
         private static readonly int throttleQueriesAllowed = 200;
 
-        private static readonly string logFilePath = "";
+        private static readonly string logFilePath = "C:/Program Files/LeagueMVC/Logs/API/";
 
         public APIHelper()
         {
@@ -78,9 +79,23 @@ namespace LeagueMVC.APIManagement
 
         private static void LogAPIError(Exception error)
         {
-            Console.WriteLine(error.Message);
-
-            // To-do Implement actually logging to a local file
+            try
+            {
+                if (File.Exists(logFilePath + DateTime.Today.ToString("ddMMyyyy") + ".txt"))
+                {
+                    File.AppendAllText(logFilePath + DateTime.Today.ToString("ddMMyyyy") + ".txt",
+                        error.ToString() + Environment.NewLine + "-------------------------------------");
+                }
+                else
+                {
+                    File.WriteAllText(logFilePath + DateTime.Today.ToString("ddMMyyyy") + ".txt",
+                        error.ToString() + Environment.NewLine + "-------------------------------------");
+                }
+            }
+            catch
+            {
+                Console.WriteLine(error.Message);
+            }
         }
 
         #region APICalls
