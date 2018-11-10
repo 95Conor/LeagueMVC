@@ -20,6 +20,7 @@ namespace LeagueMVC.APIManagement
             { QueryType.MatchListByAccountId, "/lol/match/v3/matchlists/by-account/" },
             { QueryType.MatchTimelineByMatchId, "/lol/match/v3/timelines/by-match/" },
             { QueryType.LeaguePositionsBySummonerId, "/lol/league/v3/positions/by-summoner/" },
+            { QueryType.ChampionMasteriesBySummonerId, "/lol/champion-mastery/v3/champion-masteries/by-summoner/" },
         };
 
         public string CreateQueryString(QueryType queryType, string mainQueryValue, Dictionary<string, string> extraQueryParam = null)

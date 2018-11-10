@@ -32,9 +32,29 @@ namespace LeagueMVC.APIManagement
             return httpClient.GetAsync(requestURI).Result;
         }
 
-        public static T CreateAPIObjectFromResponse<T>(HttpResponseMessage apiResponse)
+        private T GetAPIObject<T>(QueryType queryType, object param)
         {
-            return JsonConvert.DeserializeObject<T>(apiResponse.Content.ReadAsStringAsync().Result);
+            try
+            {
+                if (IsThrottled())
+                {
+                    return default(T);
+                }
+
+                HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(queryType, param.ToString()));
+                if (!response.IsSuccessStatusCode)
+                {
+                    LogAPIError(new Exception("Status Code: " + response.StatusCode.ToString() + " - Message: " + response.ReasonPhrase));
+                    return default(T);
+                }
+
+                return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch (Exception exception)
+            {
+                LogAPIError(exception);
+                return default(T);
+            }
         }
 
         private static bool IsThrottled()
@@ -65,38 +85,17 @@ namespace LeagueMVC.APIManagement
 
         public User GetUser(string userName)
         {
-            if (IsThrottled())
-            {
-                return null;
-            }
-
-            HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SummonerByName, userName));
-            if (!response.IsSuccessStatusCode)
-            {
-                LogAPIError(new Exception("Status Code: " + response.StatusCode.ToString() + " - Message: " + response.ReasonPhrase));
-                return new User();
-            }
-
-            User user = CreateAPIObjectFromResponse<User>(response);
-            return user;
+            return GetAPIObject<User>(QueryType.SummonerByName, userName);
         }
 
         public CurrentGameInfo GetCurrentGameInfo(long summonerId)
         {
-            if (IsThrottled())
-            {
-                return null;
-            }
+            return GetAPIObject<CurrentGameInfo>(QueryType.SpectatorBySummonerId, summonerId);
+        }
 
-            HttpResponseMessage response = GetResponse(queryHelper.CreateQueryString(QueryType.SpectatorBySummonerId, summonerId.ToString()));
-            if (!response.IsSuccessStatusCode)
-            {
-                LogAPIError(new Exception("Status Code: " + response.StatusCode.ToString() + " - Message: " + response.ReasonPhrase));
-                return new CurrentGameInfo();
-            }
-
-            CurrentGameInfo currentGameInfo = CreateAPIObjectFromResponse<CurrentGameInfo>(response);
-            return currentGameInfo;
+        public ChampionMastery GetChampionMastery(long summonerId)
+        {
+            return GetAPIObject<ChampionMastery>(QueryType.ChampionMasteriesBySummonerId, summonerId);
         }
 
         #endregion APICalls

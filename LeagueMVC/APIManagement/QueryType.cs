@@ -15,5 +15,6 @@ namespace LeagueMVC.APIManagement
         MatchListByAccountId,
         MatchTimelineByMatchId,
         LeaguePositionsBySummonerId,
+        ChampionMasteriesBySummonerId
     }
 }
