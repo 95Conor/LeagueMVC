@@ -9,6 +9,11 @@ namespace LeagueMVC.Classes.Application
     {
         private List<Champion> allChampions { get; set; }
 
+        public List<Champion> GetAllChampions()
+        {
+            return allChampions;
+        }
+
         public Champion GetChampionById(long id)
         {
             return allChampions.Any(x => x.Id == id) 
