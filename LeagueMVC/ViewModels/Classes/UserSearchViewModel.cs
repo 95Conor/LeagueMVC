@@ -17,6 +17,10 @@ namespace LeagueMVC.ViewModels.Classes
         public TimeSpan TimeSinceLastLogin { get; set; }
         public bool FoundResult { get; set; }
 
+        public List<ChampionMasteryDTOChampion> TopTenChampions { get; set; }
+        public List<ChampionMasteryDTOChampion> TopTwentyChampions { get; set; }
+        public int PlayerBadRating { get; set; }
+
         [DisplayName("Username:")]
         [Required]
         public string UsernameInput { get; set; }

@@ -110,9 +110,9 @@ namespace LeagueMVC.APIManagement
             return GetAPIObject<CurrentGameInfo>(QueryType.SpectatorBySummonerId, summonerId);
         }
 
-        public ChampionMastery GetChampionMastery(long summonerId)
+        public List<ChampionMastery> GetChampionMastery(long summonerId)
         {
-            return GetAPIObject<ChampionMastery>(QueryType.ChampionMasteriesBySummonerId, summonerId);
+            return GetAPIObject<List<ChampionMastery>>(QueryType.ChampionMasteriesBySummonerId, summonerId);
         }
 
         #endregion APICalls

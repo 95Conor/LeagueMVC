@@ -4,31 +4,47 @@ using System.Linq;
 using System.Threading.Tasks;
 using LeagueMVC.Classes.API;
 using LeagueMVC.APIManagement;
+using LeagueMVC.Classes.Application.DTO;
+using LeagueMVC.Mappers.DTO;
+using LeagueMVC.Tasks;
 
 namespace LeagueMVC.PlayerBadRating
 {
     public class RatingCalculation
     {
+        // To-do - make a rating for 10 and 20, or rather, make the rating a function which you pass a value to to check the top X amount of champs
         public int rating { get; set; }
-        private APIHelper apiHelper { get; set; }
+        private ApplicationTasks applicationTasks { get; set; }
 
-        //To-do: This should be a different object which has been mapped from ChampionMastery 
-        // Containing just the nice stuff we care about for calculations
-        private ChampionMastery championMastery { get; set; }
+        public ChampionMasteryDTO championMasteryDTO { get; set; }
 
         public RatingCalculation (long summonerId)
         {
-            apiHelper = new APIHelper();
-            
-            //To-do: This will map from the API object to the above
-            championMastery = apiHelper.GetChampionMastery(summonerId);
+            applicationTasks = new ApplicationTasks();
+            this.championMasteryDTO = applicationTasks.GetChampionMasteryInfo(summonerId);
             CalculateRating();
         }
 
+        // To-do: change calculation to base the numbers also on the total number of games/champ points they have on the specific champ
+        // i.e a fiddlesticks MAIN should weight the fiddlesticks proportion greater
+        // Maybe sum up the total amount of champion points of all 20 and then weight them based on each individual one
+        // pseudo:
+        // var totalPoints = SUM(all champion points)
+        // var fiddleSticksBadRating = ( ratingHelper.GetRating(fiddlesticks) * fiddlesticks.totalPoints ) / (totalPoints / 20) 
+        // Or something like that...
+
         private void CalculateRating()
         {
-            // To-do: actual calculation based on both champ points and our pre-defined ratings
-            rating = 100;
+            int sum = 0;
+            RatingHelper ratingHelper = new RatingHelper();
+
+            foreach (ChampionMasteryDTOChampion champMasteryDTOChampion in championMasteryDTO.TopTwentyChampions)
+            {
+                sum += ratingHelper.GetChampionRatingByChampion(champMasteryDTOChampion.champion).Rating;
+            }
+
+            decimal rating = sum / 20;
+            this.rating = Convert.ToInt32(rating);
         }
     }
 }

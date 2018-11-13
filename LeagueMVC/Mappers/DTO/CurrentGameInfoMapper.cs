@@ -7,7 +7,7 @@ namespace LeagueMVC.Mappers.DTO
 {
     public class CurrentGameInfoMapper
     {
-        public static Classes.Application.DTO.CurrentGameInfoDTO mapFromAPI(Classes.API.CurrentGameInfo inputCurrentGameInfo)
+        public static Classes.Application.DTO.CurrentGameInfoDTO MapFromAPI(Classes.API.CurrentGameInfo inputCurrentGameInfo)
         {
             Classes.Application.DTO.CurrentGameInfoDTO returnCurrentGameInfo = new Classes.Application.DTO.CurrentGameInfoDTO();
 

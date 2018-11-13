@@ -12,7 +12,7 @@ namespace LeagueMVC.Mappers.DTO
         public static Classes.Application.DTO.UserDTO mapFromAPI(Classes.API.User inputUser)
         {
             Classes.Application.DTO.UserDTO returnUser = new Classes.Application.DTO.UserDTO();
-            returnUser.UserID = inputUser.id;
+            returnUser.SummonerID = inputUser.id;
             returnUser.Username = inputUser.name;
             returnUser.LastLogin = DateTimeOffset.FromUnixTimeMilliseconds(inputUser.revisionDate).DateTime;
             returnUser.TimeSinceLastLogin = DateTime.Now - returnUser.LastLogin;

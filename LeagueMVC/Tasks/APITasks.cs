@@ -13,7 +13,6 @@ namespace LeagueMVC.Tasks
         // Don't want to reinitialise the HttpClient multiple times so keep APIHelper as static use
         private static APIHelper apiHelper { get; set; }
 
-        //To-do: implement API throttling protection with some sort of time tracking
         public APITasks()
         {
             apiHelper = apiHelper ?? new APIHelper();
@@ -28,7 +27,7 @@ namespace LeagueMVC.Tasks
         public Classes.Application.DTO.CurrentGameInfoDTO GetCurrentGameInfo(string userName)
         {
             var user = apiHelper.GetUser(userName);
-            var currentGameInfo = CurrentGameInfoMapper.mapFromAPI(apiHelper.GetCurrentGameInfo(user.id));
+            var currentGameInfo = CurrentGameInfoMapper.MapFromAPI(apiHelper.GetCurrentGameInfo(user.id));
             return currentGameInfo;
         }
     }

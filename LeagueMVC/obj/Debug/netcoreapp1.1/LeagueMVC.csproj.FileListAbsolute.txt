@@ -11,6 +11,7 @@ C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\b
 C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\bin\Debug\netcoreapp1.1\LeagueMVC.runtimeconfig.dev.json
 C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\bin\Debug\netcoreapp1.1\LeagueMVC.dll
 C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\bin\Debug\netcoreapp1.1\LeagueMVC.pdb
+C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\obj\Debug\netcoreapp1.1\LeagueMVC.csprojResolveAssemblyReference.cache
 C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\obj\Debug\netcoreapp1.1\LeagueMVC.AssemblyInfo.cs
 C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\obj\Debug\netcoreapp1.1\LeagueMVC.dll
 C:\Users\Conor Maher\Documents\Visual Studio 2017\Projects\LeagueMVC\LeagueMVC\obj\Debug\netcoreapp1.1\LeagueMVC.pdb

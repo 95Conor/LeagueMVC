@@ -4,6 +4,7 @@ using LeagueMVC.ViewModels.Classes;
 using LeagueMVC.Tasks;
 using System.Linq;
 using LeagueMVC.Mappers.ViewModel;
+using LeagueMVC.PlayerBadRating;
 
 namespace LeagueMVC.Controllers
 {
@@ -37,6 +38,7 @@ namespace LeagueMVC.Controllers
             return View(emptyViewModel);
         }
 
+        //To-do: implement within the objects and mappers so the PlayerBadRating is incorporated into the results
         [HttpPost]
         public IActionResult UserSearch(UserSearchViewModel userSearchViewModel)
         {
@@ -57,6 +59,10 @@ namespace LeagueMVC.Controllers
             {
                 var userDTO = leagueAPITasks.GetUser(userSearchViewModel.UsernameInput);
                 userSearchViewModelMapper.MapFromDTO(userSearchViewModel, userDTO);
+
+                var ratingCalculation = new RatingCalculation(userDTO.SummonerID);
+                userSearchViewModelMapper.MapFromDTO(userSearchViewModel, ratingCalculation);
+
                 userSearchViewModel.FoundResult = true;
             }
         }

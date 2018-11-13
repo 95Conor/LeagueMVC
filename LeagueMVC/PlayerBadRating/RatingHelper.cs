@@ -97,7 +97,7 @@ namespace LeagueMVC.PlayerBadRating
                 new ChampionRating() { Champion = championHelper.GetChampionByName("Karma"), Rating = 10 },
                 new ChampionRating() { Champion = championHelper.GetChampionByName("Karthus"), Rating = 70 },
                 new ChampionRating() { Champion = championHelper.GetChampionByName("Kassadin"), Rating = 30 },
-                new ChampionRating() { Champion = championHelper.GetChampionByName("Kataria"), Rating = 50 },
+                new ChampionRating() { Champion = championHelper.GetChampionByName("Katarina"), Rating = 50 },
                 new ChampionRating() { Champion = championHelper.GetChampionByName("Kayle"), Rating = 60 },
                 new ChampionRating() { Champion = championHelper.GetChampionByName("Kayn"), Rating = 40 },
                 new ChampionRating() { Champion = championHelper.GetChampionByName("Kennen"), Rating = 30 },

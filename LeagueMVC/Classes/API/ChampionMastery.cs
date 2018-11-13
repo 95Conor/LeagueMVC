@@ -7,11 +7,6 @@ namespace LeagueMVC.Classes.API
 {
     public class ChampionMastery
     {
-        public List<ChampionMasteryIndividual> championMasteryList { get; set; }
-    }
-
-    public class ChampionMasteryIndividual
-    {
         public bool chestGranted { get; set; }
         public int championLevel { get; set; }
         public int championPoints { get; set; }

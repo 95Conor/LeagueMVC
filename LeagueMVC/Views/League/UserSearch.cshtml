@@ -12,21 +12,33 @@
 
     @if (Model.FoundResult)
     {
-    <hr />
-    <h1>Results</h1>
-    <br />
+        <hr />
+        <h1>Results</h1>
+        <hr />
 
-    <h2>Username</h2>
+        <h2>Username</h2>
 
-    <p> @Model.Username </p><br />
+        <p> @Model.Username </p>
 
-    <h2>User ID</h2>
+        <h2>User ID</h2>
 
-    <p> @Model.UserID </p><br />
+        <p> @Model.UserID </p>
 
-    <h2>Last Login</h2>
+        <h2>Last Login</h2>
 
-    <p> @Model.LastLogin.ToString("dd-MM-yyyy")  (@Model.TimeSinceLastLogin.TotalDays days ago)</p><br />
+        <p> @Model.LastLogin.ToString("dd-MM-yyyy")  (@Model.TimeSinceLastLogin.TotalDays.ToString("0.##"); days ago)</p><hr />
 
+        <h2>Top 20 Champions</h2> <br />
+
+        <ul>
+            @{ LeagueMVC.PlayerBadRating.RatingHelper ratingHelper = new LeagueMVC.PlayerBadRating.RatingHelper(); }
+            @for (int i = 0; i < 20; i++)
+            {
+                <li>@Model.TopTwentyChampions[i].champion.Name - @ratingHelper.GetChampionRatingByChampion(Model.TopTwentyChampions[i].champion).Rating.ToString()</li>
+            }
+        </ul> <hr />
+
+        <h2>Bad Rating: </h2>
+
+        <p> @Model.PlayerBadRating </p>
     }
-

@@ -8,7 +8,7 @@ namespace LeagueMVC.Classes.Application.DTO
     public class UserDTO
     {
         public string Username { get; set; }
-        public long UserID { get; set; }
+        public long SummonerID { get; set; }
         public DateTime LastLogin { get; set; }
         public TimeSpan TimeSinceLastLogin { get; set; }
     }
